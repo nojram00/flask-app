@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% block head%}
+
+    {% endblock%}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        {% block title %}
+
+        {% endblock %}
+    </title>
+
+    <style>
+        .background {
+            min-height: fit-content;
+            background-color: aqua;
+        }
+    </style>
+
+</head>
+<body>
+    <div class="background">
+        <header>
+            {% block header%}
+
+            {% endblock %}
+        </header>
+
+        <main>
+            {% block body %}
+
+             {% endblock %}
+        </main>
+    </div>
+</body>
+</html>
