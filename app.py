@@ -76,7 +76,7 @@ def create_app():
             # case
             # cpu
             # fan
-            data = i.retrieve_by_category(category)
+            data = items.fetch_items_by_category(category)
         else:
             data = i.retrieve()
 

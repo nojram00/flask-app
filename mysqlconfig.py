@@ -1,6 +1,5 @@
 import mysql.connector
 
-
 #Database Controller lahat ng papasok at lalabas dederetsyo dito:
 class mysqlconfig():
 
@@ -11,62 +10,41 @@ class mysqlconfig():
             user=username,
             password=password,
             database=database)
+        # self.kupal = "wews"
 
         #initialize cursor
         self.mcursor = self.connection.cursor()
 
-    def test(self):
-        pass
+    def select(self, table):
+        self.query = f"SELECT * FROM {table}"
+        self.table = table
+        return self
 
-    def retrieve_all(self, table):
-        data = []
-        data.clear()
+    def insert(table, **items):
+        cols = items.keys()
+        values = items.values()
+        self.query = f"INSERT INTO {', '.join(cols)} {table} VALUES {', '.join(values)}"
+        return self
 
-        query = "SELECT * FROM {}"
+    def where(self, colm, value):
+        if 'WHERE' in self.query:
+            self.query += f" AND {colm} = '{value}'"
+        else:
+            self.query += f" WHERE {colm} = '{value}'"
+        return self
 
-        print(query.format(table))
+    def innerjoin(self, joinTable, joinCol, tableCol):
+        self.query += f" INNER JOIN {joinTable} ON {joinTable}.{joinCol} = {self.table}.{tableCol}"
+        return self
 
-        self.mcursor.execute(query.format(table))
+    def testQuery(self):
+        print(self.query)
 
-        for d in self.mcursor:
-            data.append(d)
-
+    def execute(self):
+        self.mcursor.execute(self.query)
+        data = self.mcursor.fetchall()
+        self.mcursor.close()
         return data
 
-    def retrieve_by_id(self, table, id):
-        data = []
-        data.clear()
-        query = "SELECT * FROM {} WHERE id = {}"
-        print(query.format(table, id))
 
-        self.mcursor.execute(query.format(table, id))
-
-        for d in self.mcursor:
-            data.append(d)
-
-        return data
-
-    def insertData(self, table, key, value):
-        query = "INSERT INTO {} ( {} ) VALUES ( {} )".format(table, key, value)
-        # query = "INSERT INTO `sample_tb` (`id`, `first_name`, `last_name`, `age`) VALUES (NULL, 'Rendon', 'Labador', 30)"
-        print(query)
-        self.mcursor.execute(query)
-        self.connection.commit()
-
-        message = "message: success!"
-        return message
-
-    def retrieve_by_category(self, category):
-        data = []
-        data.clear()
-        query = "SELECT * FROM items WHERE `category` = '{}'".format(category)
-        print(query)
-        self.mcursor.execute(query)
-
-        for d in self.mcursor:
-            data.append(d)
-
-        return data
-    # def get_data(self):
-    #     return self.data
 
