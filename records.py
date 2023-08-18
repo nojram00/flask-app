@@ -1,4 +1,4 @@
-import mysqlconfig
+from db import Database
 from collections import OrderedDict
 
 
